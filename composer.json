@@ -8,5 +8,14 @@
     ],
     "autoload": {
         "psr-4": {"Monetha\\": "src/Monetha/"}
-    }
+    },
+    "require": {
+        "monetha/payment-plugin-php-sdk": "dev-master"
+    },
+    "repositories": [
+        {
+            "url": "https://gitlab.com/monetha/payment-plugin-php-sdk.git",
+            "type": "vcs"
+        }
+    ]
 }
