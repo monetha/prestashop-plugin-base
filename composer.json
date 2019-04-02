@@ -9,6 +9,7 @@
     "autoload": {
         "psr-4": {"Monetha\\": "src/Monetha/"}
     },
+    "version": "1.0.2",
     "require": {
         "monetha/payment-plugin-php-sdk": "^1.0.2"
     },
