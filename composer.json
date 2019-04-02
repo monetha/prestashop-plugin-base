@@ -1,0 +1,12 @@
+{
+    "name": "hitrov/monetha-prestashop",
+    "authors": [
+        {
+            "name": "Alexander Hitrov",
+            "email": "alexander.hitrov@monetha.io"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Monetha\\": "src/Monetha/"}
+    }
+}
