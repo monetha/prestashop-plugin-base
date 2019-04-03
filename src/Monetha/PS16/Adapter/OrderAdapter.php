@@ -67,6 +67,6 @@ class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface {
 
     public function getCallbackUrl()
     {
-        return $this->cart->getBaseUrl() . '/modules/monethagateway/webservices/actions.php';
+        return $this->getBaseUrl() . '/modules/monethagateway/webservices/actions.php';
     }
 }
