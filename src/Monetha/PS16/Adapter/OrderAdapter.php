@@ -33,6 +33,25 @@ class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface {
         $this->baseUrl = $baseUrl;
 
         $items = $this->cart->getProducts();
+
+        $shipping = $cart->getTotalShippingCost();
+        if ($shipping) {
+            $items[] = [
+                'name' => 'Shipping',
+                'quantity' => 1,
+                'price_wt' => $shipping,
+            ];
+        }
+
+        $discount = $cart->getDiscountSubtotalWithoutGifts();
+        if ($discount) {
+            $items[] = [
+                'name' => 'Discount',
+                'quantity' => 1,
+                'price_wt' => -$discount,
+            ];
+        }
+
         foreach ($items as $item) {
             $this->items[] = new InterceptorAdapter($item);
         }
