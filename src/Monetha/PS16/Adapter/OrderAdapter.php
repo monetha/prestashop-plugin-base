@@ -3,10 +3,11 @@
 namespace Monetha\PS16\Adapter;
 
 use Monetha\Adapter\CallbackUrlInterface;
+use Monetha\Adapter\ReturnUrlUrlInterface;
 use Monetha\Adapter\InterceptorInterface;
 use Monetha\Adapter\OrderAdapterInterface;
 
-class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface {
+class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface, ReturnUrlUrlInterface {
     /**
      * @var \Cart
      */
@@ -27,10 +28,16 @@ class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface {
      */
     private $baseUrl;
 
-    public function __construct(\Cart $cart, $currencyCode, $baseUrl) {
+    /**
+     * @var string
+     */
+    private $returnUri;
+
+    public function __construct(\Cart $cart, $currencyCode, $baseUrl, $discountAmount, $returnUri) {
         $this->cart = $cart;
         $this->currencyCode = $currencyCode;
         $this->baseUrl = $baseUrl;
+        $this->returnUri = $returnUri;
 
         $items = $this->cart->getProducts();
 
@@ -43,12 +50,11 @@ class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface {
             ];
         }
 
-        $discount = $cart->getDiscountSubtotalWithoutGifts();
-        if ($discount) {
+        if ($discountAmount) {
             $items[] = [
                 'name' => 'Discount',
                 'quantity' => 1,
-                'price_wt' => -$discount,
+                'price_wt' => $discountAmount > 0 ? -$discountAmount : $discountAmount,
             ];
         }
 
@@ -87,5 +93,10 @@ class OrderAdapter implements OrderAdapterInterface, CallbackUrlInterface {
     public function getCallbackUrl()
     {
         return $this->getBaseUrl() . '/modules/monethagateway/webservices/actions.php';
+    }
+
+    public function getReturnUrl()
+    {
+        return $this->getBaseUrl() . '/' . $this->returnUri;
     }
 }
